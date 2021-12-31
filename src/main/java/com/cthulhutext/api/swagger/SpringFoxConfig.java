@@ -1,4 +1,4 @@
-package com.cthulhutext.api;
+package com.cthulhutext.api.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
