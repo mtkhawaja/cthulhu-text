@@ -10,18 +10,33 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class TextConversionServiceTest {
+    private final String baseText = "In his house at R'lyeh dead Cthulhu waits dreaming";
     @Autowired
     private TextConversionService textConversionService;
 
-    @DisplayName("Should create CursedText When given a regular text String")
+    @DisplayName("Should create CursedText When given regular text String")
     @Test
     void shouldCreateCursedTextWhenGivenRegularText() {
-        String baseText = "In his house at R'lyeh dead Cthulhu waits dreaming";
         CursedText cursedText = textConversionService.convertToCursedText(baseText);
         assertThat(cursedText).isNotNull();
         assertThat(cursedText.content())
                 .isNotNull()
                 .hasSizeGreaterThanOrEqualTo(baseText.length());
+    }
+
+    @DisplayName("Should create CursedText When given text and intensity parameters")
+    @Test
+    void shouldCreateCursedTextWhenGivenTextAndIntensityParameters() {
+        int upperIntensity = 1;
+        int middleIntensity = 5;
+        int lowerIntensity = 6;
+        int additionalCharacters = (upperIntensity + middleIntensity + lowerIntensity) * baseText.length();
+        CursedText cursedText = textConversionService
+                .convertToCursedText(baseText, upperIntensity, middleIntensity, lowerIntensity);
+        assertThat(cursedText).isNotNull();
+        assertThat(cursedText.content())
+                .isNotNull()
+                .hasSize(baseText.length() + additionalCharacters);
     }
 
 }

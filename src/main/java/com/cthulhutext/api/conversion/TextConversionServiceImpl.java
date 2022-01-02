@@ -52,7 +52,23 @@ public class TextConversionServiceImpl implements TextConversionService {
 
     @Override
     public CursedText convertToCursedText(String text, int upperIntensity, int middleIntensity, int lowerIntensity) {
-        return null;
+        StringBuilder stringBuilder = new StringBuilder();
+        int textLength = text.length();
+        for (int charIndex = 0; charIndex < textLength; charIndex++) {
+            stringBuilder.append(text.charAt(charIndex));
+            stringBuilder.append(getCharactersDiacriticType(this.upperDiacritics, upperIntensity));
+            stringBuilder.append(getCharactersDiacriticType(this.middleDiacritics, middleIntensity));
+            stringBuilder.append(getCharactersDiacriticType(this.lowerDiacritics, lowerIntensity));
+        }
+        return new CursedText(stringBuilder.toString());
+    }
+
+    private String getCharactersDiacriticType(char[] diacriticMarks, int intensity) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int round = 0; round < intensity; round++) {
+            stringBuilder.append(getRandomDiacriticMark(diacriticMarks));
+        }
+        return stringBuilder.toString();
     }
 
     private char getRandomDiacriticMark(char[] diacriticTypeReference) {
