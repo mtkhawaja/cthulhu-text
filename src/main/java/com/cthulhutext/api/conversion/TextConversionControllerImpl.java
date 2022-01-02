@@ -21,4 +21,10 @@ public class TextConversionControllerImpl implements TextConversionController {
         return new ResponseEntity<>(cursedText, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<CursedText> getCthulhuText(String text, int upperIntensity, int middleIntensity, int lowerIntensity) {
+        CursedText cursedText = textConversionService.convertToCursedText(text, upperIntensity, middleIntensity, lowerIntensity);
+        return new ResponseEntity<>(cursedText, HttpStatus.OK);
+    }
+
 }

@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @PropertySource("classpath:/static/diacritics.properties")
 public class TextConversionServiceImpl implements TextConversionService {
 
-    private static final int DEFAULT_CHARACTER_ADDITION_ROUNDS = 5;
+    private static final int DEFAULT_CHARACTER_ADDITION_ROUNDS = 30;
     private final int diacriticTypeCount;
     private final char[] upperDiacritics;
     private final char[] middleDiacritics;
@@ -48,6 +48,11 @@ public class TextConversionServiceImpl implements TextConversionService {
             }
         }
         return new CursedText(stringBuilder.toString());
+    }
+
+    @Override
+    public CursedText convertToCursedText(String text, int upperIntensity, int middleIntensity, int lowerIntensity) {
+        return null;
     }
 
     private char getRandomDiacriticMark(char[] diacriticTypeReference) {
