@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import javax.validation.constraints.Min;
 
 @Api(tags = "Text Conversion", value = "Set of endpoints for converting text to Cthulhu-fied text.")
 @RequestMapping("/v1/convert")
+@Validated
 public interface TextConversionController {
     @ApiOperation(value = "getCthulhuText", notes = "Get Cthulhu-fied text.")
     @GetMapping(value = "/{text}", produces = MediaType.APPLICATION_JSON_VALUE)
