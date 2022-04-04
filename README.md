@@ -2,6 +2,7 @@
 
 [![java-version](https://img.shields.io/badge/java-17-green.svg)](https://openjdk.java.net/projects/jdk/17/)
 [![tests](https://github.com/mtkhawaja/cthulhu-text/actions/workflows/main.yaml/badge.svg)](https://github.com/mtkhawaja/cthulhu-text/actions/workflows/main.yaml)
+[![docker-build](https://github.com/mtkhawaja/cthulhu-text/actions/workflows/docker-image.yml/badge.svg)](https://github.com/mtkhawaja/cthulhu-text/actions/workflows/docker-image.yml)
 [![codecov](https://codecov.io/gh/mtkhawaja/cthulhu-text/branch/main/graph/badge.svg?token=4ZRH0VLKJU)](https://codecov.io/gh/mtkhawaja/cthulhu-text)
 
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
