@@ -15,12 +15,4 @@ public class SwaggerConfiguration {
                 .packagesToScan("com.cthulhutext.api.conversion")
                 .build();
     }
-
-    @Bean
-    public GroupedOpenApi welcomeGroup(@Value("${springdoc.version}") String appVersion) {
-        return GroupedOpenApi.builder().group("welcome")
-                .addOpenApiCustomiser(openApi -> openApi.info(new Info().title("Welcome API").version(appVersion)))
-                .packagesToScan("com.cthulhutext.api.welcome")
-                .build();
-    }
 }
