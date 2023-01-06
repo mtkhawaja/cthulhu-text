@@ -17,22 +17,20 @@
 
 ### Docker
 
-#### Bash
+#### Build
 
 ```bash
-docker build ./ -t cthulhu-text/api -f ./Dockerfile && \
-docker run -rm -it -p 80:8080 cthulhu-text/api 
+docker-compose build && docker-compose up
 ```
 
-#### Powershell
+#### Develop
 
 ```bash
-docker build ./ -t cthulhu-text/api -f ./Dockerfile; `
-if ($?) {`
-  docker run --rm -it -p 80:8080  cthulhu-text/api `
-}
+docker-compose -f docker-compose.yaml -f docker/dev/override.yaml build && docker-compose up
 ```
+
+**Note**: The repo root is mounted and hot-reloading is enabled.
 
 ## License
 
-[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
+[![License](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)

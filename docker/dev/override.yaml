@@ -1,0 +1,11 @@
+# DEV
+version: "3.9"
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: docker/dev/Dockerfile
+    volumes:
+      - ./:/opt/app/
+    environment:
+      debug: ${DEBUG:-true}

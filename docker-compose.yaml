@@ -17,10 +17,8 @@ services:
       dockerfile: ./Dockerfile
     environment:
       debug: ${DEBUG:-false}
-      PORT: ${PORT:-8080}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:postgresql://db:5432/${POSTGRES_DB:-cthulhu_text}}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
     ports:
       - "8080:8080"
-
