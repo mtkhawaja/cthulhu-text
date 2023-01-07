@@ -1,13 +1,13 @@
 package com.cthulhutext.api.conversion;
 
-import com.cthulhutext.api.models.CursedText;
+import com.cthulhutext.openapi.generated.model.CursedText;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TextConversionControllerHttpTest {
     private final int MAXIMUM_INTENSITY = 100;
-    private final int MINIMUM_INTENSITY = 1;
+    private final int MINIMUM_INTENSITY = 0;
     private final int DEFAULT_INTENSITY = 1;
     private final String text = "God! What wonder that across the earth a great architect went mad";
     @LocalServerPort
@@ -30,8 +30,8 @@ class TextConversionControllerHttpTest {
 
     @BeforeEach
     void setUp() {
-        baseRandomEndpoint = String.format("http://localhost:%s/v1/convert/random/%s", port, text);
-        baseEndpoint = String.format("http://localhost:%s/v1/convert/%s", port, text);
+        baseRandomEndpoint = String.format("http://localhost:%s/convert/random/%s", port, text);
+        baseEndpoint = String.format("http://localhost:%s/convert/%s", port, text);
     }
 
     @DisplayName("Should generate CursedText at least as long as the original text When the random conversion endpoint is hit")
@@ -40,7 +40,7 @@ class TextConversionControllerHttpTest {
         CursedText cursedText = testRestTemplate.getForObject(baseRandomEndpoint, CursedText.class);
         assertThat(cursedText)
                 .isNotNull();
-        assertThat(cursedText.content())
+        assertThat(cursedText.getContent())
                 .isNotNull()
                 .hasSizeGreaterThanOrEqualTo(text.length());
     }
@@ -51,7 +51,7 @@ class TextConversionControllerHttpTest {
         CursedText cursedText = testRestTemplate.getForObject(baseEndpoint, CursedText.class);
         assertThat(cursedText)
                 .isNotNull();
-        assertThat(cursedText.content())
+        assertThat(cursedText.getContent())
                 .isNotNull()
                 .hasSize(expectedCharacterCountForCursedText(text, DEFAULT_INTENSITY, DEFAULT_INTENSITY, DEFAULT_INTENSITY));
     }
@@ -64,7 +64,7 @@ class TextConversionControllerHttpTest {
         CursedText cursedText = testRestTemplate.getForObject(endpoint, CursedText.class);
         assertThat(cursedText)
                 .isNotNull();
-        assertThat(cursedText.content())
+        assertThat(cursedText.getContent())
                 .isNotNull()
                 .hasSize(expectedCharacterCountForCursedText(text, upperIntensity, DEFAULT_INTENSITY, DEFAULT_INTENSITY));
     }
@@ -79,7 +79,7 @@ class TextConversionControllerHttpTest {
         CursedText cursedText = testRestTemplate.getForObject(endpoint, CursedText.class);
         assertThat(cursedText)
                 .isNotNull();
-        assertThat(cursedText.content())
+        assertThat(cursedText.getContent())
                 .isNotNull()
                 .hasSize(expectedCharacterCountForCursedText(text, upperIntensity, middleIntensity, lowerIntensity));
     }

@@ -1,0 +1,94 @@
+openapi: 3.0.2
+servers:
+  - url: https://www.cthulhutext.com/v{version}
+    variables:
+      version:
+        default: "1"
+    description: Production server
+
+
+info:
+  title: Cthulhu Text API
+  description: "Backend API for doing love-craftian stuff ( ;,;)"
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.2-SNAPSHOT
+
+paths:
+  /convert/{text}:
+    get:
+      operationId: convertTextToCthulhuText
+      summary: Convert text to Cthulhu-fied text using configured intensities
+      parameters:
+        - $ref: '#/components/parameters/text'
+        - $ref: '#/components/parameters/upperIntensity'
+        - $ref: '#/components/parameters/middleIntensity'
+        - $ref: '#/components/parameters/lowerIntensity'
+      responses:
+        200:
+          $ref: '#/components/responses/CursedTextConversionSuccess'
+
+  /convert/random/{text}:
+    get:
+      operationId: randomlyConvertTextToCthulhuText
+      summary: Convert text to Cthulhu-fied text using random intensities
+      parameters:
+        - $ref: '#/components/parameters/text'
+      responses:
+        200:
+          $ref: '#/components/responses/CursedTextConversionSuccess'
+
+components:
+  responses:
+    CursedTextConversionSuccess:
+      description: Successfully cthulhu-fied text.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CursedText'
+  parameters:
+    text:
+      in: path
+      name: text
+      required: true
+      example: "Damn it, it wasn't quite fresh enough!"
+      schema:
+        type: string
+    upperIntensity:
+      in: query
+      name: upperIntensity
+      description: "The intensity [0 - 100] of upper diacritical marks such as U+0300, U+0301 etc."
+      schema:
+        default: 1
+        minimum: 0
+        maximum: 100
+        type: integer
+    middleIntensity:
+      in: query
+      name: middleIntensity
+      description: "The intensity [0 - 100] of middle diacritical marks such as U+0310, U+0311 etc."
+      schema:
+        default: 1
+        minimum: 0
+        maximum: 100
+        type: integer
+    lowerIntensity:
+      in: query
+      name: lowerIntensity
+      description: "The intensity [0 - 100] of lower diacritical marks such as U+0316, U+0317 etc."
+      schema:
+        default: 1
+        minimum: 0
+        maximum: 100
+        type: integer
+
+  schemas:
+    CursedText:
+      type: object
+      properties:
+        content:
+          description: Cursed text
+          type: string
+      required:
+        - content

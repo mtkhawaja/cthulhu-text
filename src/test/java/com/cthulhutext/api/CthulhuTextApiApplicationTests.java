@@ -1,6 +1,6 @@
 package com.cthulhutext.api;
 
-import com.cthulhutext.api.welcome.WelcomeController;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,11 +10,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 class CthulhuTextApiApplicationTests {
     @Autowired
-    WelcomeController welcomeController;
+    CthulhuTextApiApplication application;
 
+    @DisplayName("Should not fail When application context is loaded")
     @Test
-    void contextLoads() {
-        assertThat(welcomeController).isNotNull();
+    void shouldNotFailWhenApplicationContextIsLoaded() {
+        assertThat(application).isNotNull();
     }
 
 }

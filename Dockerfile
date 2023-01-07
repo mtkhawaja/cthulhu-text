@@ -1,14 +1,21 @@
 #
-# Build stage
+# Download all dependencies & cache them
 #
-FROM maven:3.8.4-openjdk-17-slim AS mavenBuild
-COPY src /app/src
-COPY pom.xml /app
-RUN mvn -f /app/pom.xml clean package
-
+FROM maven:latest AS source
+WORKDIR /opt/app/
+COPY pom.xml ./pom.xml
+RUN mvn dependency:go-offline
 #
-# Package stage
+# Build
 #
-FROM openjdk:17-alpine
-COPY --from=mavenBuild /app/target/api-*.jar /app.jar
-CMD java -jar /app.jar --server.port=${PORT:-8080}
+FROM source AS builder
+WORKDIR /opt/app
+COPY src ./src
+RUN mvn clean install
+#
+# Package
+#
+FROM openjdk:17-alpine as production
+WORKDIR /opt/app
+COPY --from=builder /opt/app/target/api-*.jar /app.jar
+CMD java -jar /app.jar

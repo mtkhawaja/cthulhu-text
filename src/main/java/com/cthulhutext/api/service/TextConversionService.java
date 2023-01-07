@@ -1,6 +1,7 @@
-package com.cthulhutext.api.conversion;
+package com.cthulhutext.api.service;
 
-import com.cthulhutext.api.models.CursedText;
+
+import com.cthulhutext.openapi.generated.model.CursedText;
 
 public interface TextConversionService {
     CursedText convertToCursedText(String text);
