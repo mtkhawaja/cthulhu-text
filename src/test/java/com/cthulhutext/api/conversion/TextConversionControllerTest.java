@@ -1,12 +1,13 @@
 package com.cthulhutext.api.conversion;
 
-import com.cthulhutext.api.models.CursedText;
-import org.junit.jupiter.api.BeforeEach;
+import com.cthulhutext.api.service.TextConversionService;
+import com.cthulhutext.openapi.generated.api.ConvertApi;
+import com.cthulhutext.openapi.generated.model.CursedText;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -16,22 +17,17 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 class TextConversionControllerTest {
     private final String text = "Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn";
-    @Mock
-    TextConversionService textConversionService;
-    private TextConversionController textConversionController;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        this.textConversionController = new TextConversionControllerImpl(textConversionService);
-    }
+    @MockBean
+    private TextConversionService textConversionService;
+    @Autowired
+    private ConvertApi textConversionController;
 
     @DisplayName("Should generate CursedText with random intensities When given text")
     @Test
     void shouldGenerateCursedTextWithRandomIntensitiesWhenGivenText() {
         when(textConversionService.convertToCursedText(text))
-                .thenReturn(new CursedText(text));
-        ResponseEntity<CursedText> cursedTextResponseEntity = textConversionController.getCthulhuText(text);
+                .thenReturn(new CursedText().content(text));
+        ResponseEntity<CursedText> cursedTextResponseEntity = textConversionController.randomlyConvertTextToCthulhuText(text);
         CursedText cursedText = cursedTextResponseEntity.getBody();
         verify(textConversionService, atMostOnce())
                 .convertToCursedText(text);
@@ -41,7 +37,7 @@ class TextConversionControllerTest {
                 .isEqualTo(HttpStatus.OK);
         assertThat(cursedText)
                 .isNotNull();
-        assertThat(cursedText.content())
+        assertThat(cursedText.getContent())
                 .isNotNull();
     }
 
@@ -52,9 +48,9 @@ class TextConversionControllerTest {
         int middleIntensity = 5;
         int lowerIntensity = 6;
         when(textConversionService.convertToCursedText(text, upperIntensity, middleIntensity, lowerIntensity))
-                .thenReturn(new CursedText(text));
+                .thenReturn(new CursedText().content(text));
         ResponseEntity<CursedText> cursedTextResponseEntity =
-                textConversionController.getCthulhuText(text, upperIntensity, middleIntensity, lowerIntensity);
+                textConversionController.convertTextToCthulhuText(text, upperIntensity, middleIntensity, lowerIntensity);
         CursedText cursedText = cursedTextResponseEntity.getBody();
         verify(textConversionService, atMostOnce())
                 .convertToCursedText(text, upperIntensity, middleIntensity, lowerIntensity);
@@ -62,7 +58,7 @@ class TextConversionControllerTest {
                 .isEqualTo(HttpStatus.OK);
         assertThat(cursedText)
                 .isNotNull();
-        assertThat(cursedText.content())
+        assertThat(cursedText.getContent())
                 .isNotNull();
     }
 

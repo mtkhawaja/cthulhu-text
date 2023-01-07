@@ -1,6 +1,6 @@
-package com.cthulhutext.api.conversion;
+package com.cthulhutext.api.service;
 
-import com.cthulhutext.api.models.CursedText;
+import com.cthulhutext.openapi.generated.model.CursedText;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -38,29 +38,26 @@ public class TextConversionServiceImpl implements TextConversionService {
     @Override
     public CursedText convertToCursedText(String text) {
         StringBuilder stringBuilder = new StringBuilder();
-        int textLength = text.length();
-        char[] diacriticTypeReference;
-        for (int charIndex = 0; charIndex < textLength; charIndex++) {
-            stringBuilder.append(text.charAt(charIndex));
+        for (var character: text.toCharArray()) {
+            stringBuilder.append(character);
             for (int rounds = 0; rounds < DEFAULT_CHARACTER_ADDITION_ROUNDS; rounds++) {
-                diacriticTypeReference = selectDiacriticType();
+                char[] diacriticTypeReference = selectDiacriticType();
                 stringBuilder.append(getRandomDiacriticMark(diacriticTypeReference));
             }
         }
-        return new CursedText(stringBuilder.toString());
+        return new CursedText().content(stringBuilder.toString());
     }
 
     @Override
     public CursedText convertToCursedText(String text, int upperIntensity, int middleIntensity, int lowerIntensity) {
         StringBuilder stringBuilder = new StringBuilder();
-        int textLength = text.length();
-        for (int charIndex = 0; charIndex < textLength; charIndex++) {
-            stringBuilder.append(text.charAt(charIndex));
+        for (var character: text.toCharArray()) {
+            stringBuilder.append(character);
             stringBuilder.append(getCharactersDiacriticType(this.upperDiacritics, upperIntensity));
             stringBuilder.append(getCharactersDiacriticType(this.middleDiacritics, middleIntensity));
             stringBuilder.append(getCharactersDiacriticType(this.lowerDiacritics, lowerIntensity));
         }
-        return new CursedText(stringBuilder.toString());
+        return new CursedText().content(stringBuilder.toString());
     }
 
     private String getCharactersDiacriticType(char[] diacriticMarks, int intensity) {

@@ -1,6 +1,7 @@
 package com.cthulhutext.api.conversion;
 
-import com.cthulhutext.api.models.CursedText;
+import com.cthulhutext.api.service.TextConversionService;
+import com.cthulhutext.openapi.generated.model.CursedText;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ class TextConversionServiceTest {
         CursedText cursedText = textConversionService.convertToCursedText(baseText);
         assertThat(cursedText)
                 .isNotNull();
-        assertThat(cursedText.content())
+        assertThat(cursedText.getContent())
                 .isNotNull()
                 .hasSizeGreaterThanOrEqualTo(baseText.length());
     }
@@ -36,7 +37,7 @@ class TextConversionServiceTest {
                 .convertToCursedText(baseText, upperIntensity, middleIntensity, lowerIntensity);
         assertThat(cursedText)
                 .isNotNull();
-        assertThat(cursedText.content())
+        assertThat(cursedText.getContent())
                 .isNotNull()
                 .hasSize(expectedCharacterCountForCursedText(baseText, upperIntensity, middleIntensity, lowerIntensity));
     }
