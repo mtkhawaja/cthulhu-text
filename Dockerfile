@@ -2,20 +2,21 @@
 # Download all dependencies & cache them
 #
 FROM maven:latest AS source
-WORKDIR /opt/app/
+ENV APPLICATION_HOME=/opt/cthulhu-text/build/
+WORKDIR "${APPLICATION_HOME}"
 COPY pom.xml ./pom.xml
-RUN mvn dependency:go-offline
+RUN mvn dependency:resolve-plugins dependency:go-offline
 #
-# Build
+# Build & Package
 #
 FROM source AS builder
-WORKDIR /opt/app
+WORKDIR "${APPLICATION_HOME}"
 COPY src ./src
-RUN mvn clean install
+RUN mvn clean package spring-boot:repackage -Dspring.profiles.active="test"
 #
-# Package
+# Install
 #
 FROM openjdk:17-alpine as production
-WORKDIR /opt/app
-COPY --from=builder /opt/app/target/api-*.jar /app.jar
-CMD java -jar /app.jar
+WORKDIR /opt/cthulhu-text/bin
+COPY --from=builder /opt/cthulhu-text/build/target/api-*.jar ./ctext.jar
+CMD java -jar ctext.jar

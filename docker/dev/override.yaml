@@ -6,6 +6,7 @@ services:
       context: ./
       dockerfile: docker/dev/Dockerfile
     volumes:
-      - ./:/opt/app/
+      - ./:/opt/cthulhu-text/dev/
     environment:
       debug: ${DEBUG:-true}
+      SPRING_PROFILES_ACTIVE: dev
