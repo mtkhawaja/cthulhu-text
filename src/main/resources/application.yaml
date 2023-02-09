@@ -1,14 +1,10 @@
 server:
-  port : 8080
+  port: 8080
 application:
   name: '@project.artifactId@'
   build:
     version: '@project.version@'
-spring:
-  datasource:
-    url: "${SPRING_DATASOURCE_URL}"
-    username: "${SPRING_DATASOURCE_USERNAME}"
-    password: "${SPRING_DATASOURCE_PASSWORD}"
+
 springdoc:
   version: '@springdoc.version@'
   swagger-ui:
