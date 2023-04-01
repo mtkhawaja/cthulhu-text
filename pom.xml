@@ -20,7 +20,7 @@
         <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
         <postgresql.version>42.5.1</postgresql.version>
         <h2.version>2.1.214</h2.version>
-        <springdoc-openapi-starter-webmvc-ui.version>2.0.2</springdoc-openapi-starter-webmvc-ui.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.0.3</springdoc-openapi-starter-webmvc-ui.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
     </properties>
 
